@@ -14,8 +14,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+        CWidCenterCtrl.cpp \
         mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    CWidCenterCtrl.h
 
 FORMS    += mainwindow.ui
