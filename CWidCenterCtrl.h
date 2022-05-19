@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include <future>
+
 class QLabel;
 class QPushButton;
 
@@ -15,6 +17,12 @@ public:
     explicit CWidCenterCtrl(QWidget *parent = nullptr);
 
 signals:
+
+protected:
+    void TestC11();
+
+private:
+    std::promise<int> start_result;
 
 protected:
     void InitData();

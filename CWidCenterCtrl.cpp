@@ -3,12 +3,18 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QFrame>
+#include <windows.h>
+#include <functional>
+#include <QDebug>
+#include <QDateTime>
 
 CWidCenterCtrl::CWidCenterCtrl(QWidget *parent)
     : QWidget(parent)
 {
     InitData();
     InitConnect();
+
+    TestC11();
 }
 
 void CWidCenterCtrl::InitData()
@@ -115,11 +121,38 @@ void CWidCenterCtrl::InitData()
     pMainLayout->addLayout(pHBoxLayout3);
 
     setLayout(pMainLayout);
+
 }
 
 void CWidCenterCtrl::InitConnect()
 {
 
+}
+
+void CWidCenterCtrl::TestC11()
+{
+    qDebug() << "CWidCenterCtrl::TestC11() in" << QDateTime::currentDateTime();
+
+    int nResult = 0;
+
+    std::future<int> temp_result = start_result.get_future();
+    std::chrono::milliseconds span(3000);
+    std::future_status status = temp_result.wait_for(span);
+    if (status == std::future_status::ready)
+    {
+        nResult = temp_result.get();
+    }
+    else
+    {
+        // 执行耗时任务 4s
+        qDebug() << QStringLiteral("执行耗时任务 4s in") << QDateTime::currentDateTime();
+        Sleep(4000);
+        qDebug() << QStringLiteral("执行耗时任务 4s out" ) << QDateTime::currentDateTime();
+    }
+
+    start_result = std::promise<int>(); //promise重置
+
+    qDebug() << "CWidCenterCtrl::TestC11() out" << QDateTime::currentDateTime();
 }
 
 QString CWidCenterCtrl::GetFrameStyle()
